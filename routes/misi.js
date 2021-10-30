@@ -36,4 +36,10 @@ router.post('/', function(req, res, next) {
          })
 });
 
+router.get('/delete/:id', (req, res, next) => {
+  // Tantangan:
+  // Pakai query DELETE
+  // db.run()
+})
+
 module.exports = router;
