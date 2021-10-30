@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path')
-var sqlite3 = require('sqlite3')
+var db = require('../db/db')
 
-
+db.all('SELECT * FROM MissionPlan', (err, rows) => {
+  console.log(rows)
+})
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,8 +13,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-  
-  res.status(200).json({status: 'OK'})
+  db.run(`INSERT INTO MissionPlan(planName, g3wp) VALUES (?, ?)`,
+         [req.body.namaMisi, req.body.geoJSON],
+         (err) => {
+           if (err) {
+             console.log(err)
+             res.status(500).json({status: 'error'})
+             return
+            };
+            res.status(200).json({status: 'OK'})
+         })
 });
 
 
